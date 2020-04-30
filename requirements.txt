@@ -1,2 +1,5 @@
 fairseq
 nltk
+transformers
+pycm
+tensorboard
