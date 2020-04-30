@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  robbert:
+    image: putssander/robbert:latest
+    container_name: robbert
+    ports:
+      - '8888:8888'
+    volumes:
+      - "./:/home/jovyan/work"
