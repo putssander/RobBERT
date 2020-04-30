@@ -8,7 +8,7 @@ def create_arg_parser():
     parser = argparse.ArgumentParser(
         description="Preprocess the Dutch Book Reviews Dataset corpus for the sentiment analysis tagging task."
     )
-    parser.add_argument("--path", help="Path to the corpus folder.", metavar="path", default="data/raw/110kDBRD/")
+    parser.add_argument("--path", help="Path to the corpus folder.", metavar="path", default="./../data/raw/110kDBRD/")
 
     return parser
 
@@ -22,7 +22,7 @@ def get_files_of_folder(folder):
 
 
 def add_content_and_label(file_location, output_sentences, output_labels, label):
-    with open(file_location) as file:
+    with open(file_location, encoding='utf8', errors='ignore') as file:
         content = " ".join(file.readlines()).replace('\n', ' ').replace('\r', '')
         single_spaced_content = ' '.join(content.split())
         output_sentences.write(single_spaced_content + "\n")
@@ -36,8 +36,8 @@ def process_dbrd(raw_data_path, test_or_train):
     output_sentences_path = processed_data_path / (test_or_train + ".sentences.txt")
     output_labels_path = processed_data_path / (test_or_train + ".labels.txt")
 
-    with open(output_sentences_path, mode='w') as output_sentences:
-        with open(output_labels_path, mode='w') as output_labels:
+    with open(output_sentences_path, mode='w', encoding="utf8") as output_sentences:
+        with open(output_labels_path, mode='w', encoding="utf8") as output_labels:
             pos_files_folder = raw_data_path / test_or_train / 'pos'
             neg_files_folder = raw_data_path / test_or_train / 'neg'
 
