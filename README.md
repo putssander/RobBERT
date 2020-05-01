@@ -118,3 +118,47 @@ Even though MIT doesn't require it, we would like to ask if you could neverthele
     primaryClass={cs.CL}
 }
 ```
+
+## Docker edits
+
+Manual download fairseq model
+
+    mkdir models/fairseq
+    cd models/fairseq
+    
+    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/encoder.json &&\ 
+    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/vocab.bpe &&\
+    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/dict.txt &&\
+    wget https://github.com/iPieter/BERDT/releases/download/v1.0/RobBERT-base.pt
+    
+Manual download transformer model
+
+    mkdir models/fairseq
+    cd models/fairseq
+
+    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/config.json &&\
+    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/merges.txt &&\
+    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/pytorch_model.bin &&\
+    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/vocab.json
+
+### RUN with GPU
+
+Run from cloned git directory to have notebook available. 
+
+    docker run --gpus all --rm -it --ipc=host \
+    --name robbert \
+    -p 8888:8888 \
+    -p 6006:6006 \
+    -v $PWD:/workspace \
+    putssander/robbert
+    
+Jupyter will be come available at port 8888.
+
+Models and data are not included in the image, 
+manually downloaded models can be imported using the relative path from the notebooks.
+
+    tokenizer = RobertaTokenizer.from_pretrained("../models/transformers")
+    
+Scripts can be used by entering the container
+
+    docker exec -it [container-id] bash
