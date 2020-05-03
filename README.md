@@ -133,8 +133,8 @@ Manual download fairseq model
     
 Manual download transformer model
 
-    mkdir models/fairseq
-    cd models/fairseq
+    mkdir models/transformer
+    cd models/transformer
 
     wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/config.json &&\
     wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/merges.txt &&\
