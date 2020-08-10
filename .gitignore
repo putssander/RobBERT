@@ -3,3 +3,4 @@ data/
 models/
 src/__pycache__/
 *.iml
+venv/
