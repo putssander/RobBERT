@@ -1,42 +1,30 @@
-<p align="center"> 
-    <img src="res/robbert_logo_with_name.png" alt="RobBERT: A Dutch RoBERTa-based Language Model" width="75%">
- </p>
-
-
-![Python](https://img.shields.io/badge/python-v3.6+-blue.svg)
-![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
-![GitHub](https://img.shields.io/github/license/ipieter/RobBERT)
+---
+language: "nl"
+thumbnail: "https://github.com/iPieter/RobBERT/blob/master/res/robbert_logo.png"
+tags:
+- Dutch
+- RoBERTa
+- RobBERT
+license: "MIT"
+datasets:
+- Shuffled Dutch section of the OSCAR corpus (https://oscar-corpus.com/)
+---
 
 # RobBERT
-RobBERT is a Dutch state-of-the-art language model based on [RoBERTa](https://github.com/pytorch/fairseq/tree/master/examples/roberta).
 
-Read more on our [blog post](https://people.cs.kuleuven.be/~pieter.delobelle/robbert/) or on the [paper](https://arxiv.org/abs/2001.06286).
+## Model description
 
-## Getting started
+[RobBERT v2](https://github.com/iPieter/RobBERT) is a Dutch state-of-the-art [RoBERTa](https://arxiv.org/abs/1907.11692)-based language model.
 
-RobBERT can easily be used in two different ways, namely either using [Fairseq RoBERTa](https://github.com/pytorch/fairseq/tree/master/examples/roberta) code or using [HuggingFace Transformers](https://github.com/huggingface/transformers)
+More detailled information can be found in the [RobBERT paper](https://arxiv.org/abs/2001.06286).
 
-### Using Huggingface Transformers
-
-You can easily download RobBERT v2 using [🤗 Transformers](https://github.com/huggingface/transformers).
-Use the following code to download the base model and finetune it yourself, or use one of our finetuned models (documented on  [our project site](https://people.cs.kuleuven.be/~pieter.delobelle/robbert/)).
+## How to use
 
 ```python
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 tokenizer = RobertaTokenizer.from_pretrained("pdelobelle/robbert-v2-dutch-base")
 model = RobertaForSequenceClassification.from_pretrained("pdelobelle/robbert-v2-dutch-base")
 ```
-
-Starting with `transformers v2.4.0` (or installing from source), you can use AutoTokenizer and AutoModel.
-
-### Using Fairseq
-
-Alternatively, you can also use RobBERT using the [RoBERTa architecture code]((https://github.com/pytorch/fairseq/tree/master/examples/roberta)).
-You can download RobBERT v2's Fairseq model here: [(RobBERT-base, 1.5 GB)](https://github.com/iPieter/BERDT/releases/download/v1.0/RobBERT-base.pt). 
-Using RobBERT's `model.pt`, this method allows you to use all other functionalities of [RoBERTa](https://github.com/pytorch/fairseq/tree/master/examples/roberta).
-
-
-
 
 ## Performance Evaluation Results
 
@@ -161,73 +149,9 @@ By augmenting the DBRB Dutch Book sentiment analysis dataset with the stated gen
 
 
 
+## BibTeX entry and citation info
 
-
-
-
-
-
-
-
-
-
-
-
-## Replicating the paper experiments
-
-You can replicate the experiments done in our paper by following the following steps.
-You can install the required dependencies either the requirements.txt or pipenv:
-- Installing the dependencies from the requirements.txt file using `pip install -r requirements.txt`
-- OR install using [Pipenv](https://pipenv.readthedocs.io/en/latest/) *(install by running `pip install pipenv` in your terminal)* by running `pipenv install`.
-
-
-### Classification
-In this section we describe how to use the scripts we provide to fine-tune models, which should be general enough to reuse for other desired textual classification tasks.
-
-#### Sentiment analysis using the Dutch Book Review Dataset
-
-- Download the Dutch book review dataset from [https://github.com/benjaminvdb/110kDBRD](https://github.com/benjaminvdb/110kDBRD), and save it to `data/raw/110kDBRD`
-- Run `src/preprocess_dbrd.py` to prepare the dataset.
-- To not be blind during training, we recommend to keep aside a small evaluation set from the training set. For this run `src/split_dbrd_training.sh`.
-- Follow the notebook `notebooks/finetune_dbrd.ipynb` to finetune the model.
-
-#### Predicting the Dutch pronouns _die_ and _dat_
-We fine-tune our model on the Dutch [Europarl corpus](http://www.statmt.org/europarl/). You can download it first with:
-
-```
-cd data\raw\europarl\
-wget -N 'http://www.statmt.org/europarl/v7/nl-en.tgz'
-tar zxvf nl-en.tgz
-```
-As a sanity check, now you should have the following files in your `data/raw/europarl` folder:
-
-```
-europarl-v7.nl-en.en
-europarl-v7.nl-en.nl
-nl-en.tgz
-```
-
-Then you can run the preprocessing with the following script, which fill first process the Europarl corpus to remove sentences without any _die_ or _dat_.
-Afterwards, it will flip the pronoun and join both sentences together with a `<sep>` token.
-
-```
-python src/preprocess_diedat.py
-. src/preprocess_diedat.sh
-```
-
-note: You can monitor the progress of the first preprocessing step with `watch -n 2 wc -l data/europarl-v7.nl-en.nl.sentences`. This will take a while, but it's certainly not needed to use all inputs. This is after all why you want to use a pre-trained language model. You can terminate the python script at any time and the second step will only use those._
-
-## Credits and citation
-
-This project is created by [Pieter Delobelle](https://github.com/iPieter), [Thomas Winters](https://github.com/twinters) and Bettina Berendt.
-
-We are grateful to Liesbeth Allein, for her work on die-dat disambiguation, Huggingface for their transformer package, Facebook for their Fairseq package and all other people whose work we could use. 
-
-We release our models and this code under MIT. 
-
-Even though MIT doesn't require it, we would like to ask if you could nevertheless cite our paper if it helped you!
-
-```
+```bibtex
 @misc{delobelle2020robbert,
     title={RobBERT: a Dutch RoBERTa-based Language Model},
     author={Pieter Delobelle and Thomas Winters and Bettina Berendt},
@@ -237,47 +161,3 @@ Even though MIT doesn't require it, we would like to ask if you could neverthele
     primaryClass={cs.CL}
 }
 ```
-
-## Docker edits
-
-Manual download fairseq model
-
-    mkdir models/fairseq
-    cd models/fairseq
-    
-    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/encoder.json &&\ 
-    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/vocab.bpe &&\
-    wget https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/dict.txt &&\
-    wget https://github.com/iPieter/BERDT/releases/download/v1.0/RobBERT-base.pt
-    
-Manual download transformer model
-
-    mkdir models/transformer
-    cd models/transformer
-
-    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/config.json &&\
-    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/merges.txt &&\
-    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/pytorch_model.bin &&\
-    wget https://s3.amazonaws.com/models.huggingface.co/bert/pdelobelle/robBERT-base/vocab.json
-
-### RUN with GPU
-
-Run from cloned git directory to have notebook available. 
-
-    docker run --gpus all --rm -it --ipc=host \
-    --name robbert \
-    -p 8888:8888 \
-    -p 6006:6006 \
-    -v $PWD:/workspace \
-    putssander/robbert
-    
-Jupyter will be come available at port 8888.
-
-Models and data are not included in the image, 
-manually downloaded models can be imported using the relative path from the notebooks.
-
-    tokenizer = RobertaTokenizer.from_pretrained("../models/transformers")
-    
-Scripts can be used by entering the container
-
-    docker exec -it [container-id] bash
