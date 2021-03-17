@@ -49,12 +49,17 @@ def map_roberta(mapping, vocab):
     offset = len(EXTRA_TOKENS)
 
     output_vocab = EXTRA_TOKENS
-
     for word_id, position in mapping.items():
         if word_id in inverse_vocab:
             output_vocab[inverse_vocab[word_id]] = position + offset
         else:
             print("not found: {}".format(word_id))
+            output_vocab[word_id] = position + offset
+
+    output_vocab['<mask>'] = len(output_vocab)
+
+    for word in [ inverse_vocab[x] for x in (set([str(vocab[k]) for k in vocab])-set(mapping)-set(EXTRA_TOKENS.keys()))]:
+        output_vocab[word] = len(output_vocab)
 
     return output_vocab
 
@@ -69,7 +74,7 @@ def main(args: argparse.Namespace):
     with open(args.vocab_bpe, encoding="utf-8") as vocab_fp:
         vocab = json.load(vocab_fp)
 
-    output_vocab = map_roberta(vocab)
+    output_vocab = map_roberta(mapping, vocab)
 
     with open(args.output_vocab, "w", encoding="utf-8") as output_fp:
         json.dump(output_vocab, output_fp, ensure_ascii=False)
